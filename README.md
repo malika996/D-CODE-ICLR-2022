@@ -1,3 +1,16 @@
+## :warning: :warning: :warning:   This repository is a fork of the [ZhaozhiQIAN/D-CODE-ICLR-2022](https://github.com/ZhaozhiQIAN/D-CODE-ICLR-2022.git) and serves to verify additional approximation results for the proposed loss function.  
+
+## Quick start
+Follow the installation guidelines as per [ZhaozhiQIAN/D-CODE-ICLR-2022](https://github.com/ZhaozhiQIAN/D-CODE-ICLR-2022.git) 
+```bash
+$ git clone --recursive [repo-url]
+cd path/to/project
+python -m venv d-code
+source d-code/bin/activate
+pip install -r requirements.txt
+python -u run_experiments.py
+```
+
 # D-CODE-ICLR-2022
 Code for [D-CODE: Discovering Closed-form ODEs from Observed Trajectories (ICLR 2022)](https://openreview.net/forum?id=wENMvIsxNN).
 
