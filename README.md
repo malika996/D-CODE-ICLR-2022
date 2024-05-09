@@ -6,7 +6,7 @@ Follow the installation guidelines as per [ZhaozhiQIAN/D-CODE-ICLR-2022](https:/
 $ git clone --recursive [repo-url]
 cd path/to/project
 python -m venv d-code
-source d-code/bin/activate
+source d-code/bin/activate (Linux)
 pip install -r requirements.txt
 python -u run_experiments.py
 ```
