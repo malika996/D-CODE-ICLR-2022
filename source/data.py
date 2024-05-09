@@ -4,6 +4,7 @@ import pickle
 
 class DataGenerator:
     def __init__(self, ode, T, freq, n_sample, noise_sigma, init_low=0., init_high=1., return_list=False):
+        np.random.seed(0)
         self.ode = ode
         self.T = T
         self.freq = freq
