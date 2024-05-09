@@ -11,6 +11,10 @@ import itertools
 from time import time
 from warnings import warn
 
+import sys
+import os.path as o
+base_path =  o.abspath(o.join(o.dirname(sys.modules[__name__].__file__), ".."))
+sys.path.append(base_path)
 import numpy as np
 from joblib import Parallel, delayed
 from sklearn.base import BaseEstimator

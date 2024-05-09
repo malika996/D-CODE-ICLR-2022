@@ -50,6 +50,8 @@ def get_ode(ode_name, param):
         ode = Lorenz(param)
     elif ode_name == 'FracODE':
         ode = FracODE(param)
+    elif ode_name == 'LinearOSC':
+        ode = LinearOSCODE(param)
     else:
         raise ValueError('{} is not a supported ode.'.format(ode_name))
     return ode
@@ -207,14 +209,14 @@ class LinearODE(ODE):
     def get_default_param(self):
         return [np.array([[0, 1], [-1, 0]])]
 
-    def _dx_dt(self, t, x):
+    def _dx_dt(self, x):
         pass
 
     def dx_dt(self, t, x):
         x = np.array(x)
         return np.matmul(x, self.beta)
 
-    def dx_dt_batch(self, t, x):
+    def dx_dt_batch(self,x):
         # x: T, B, D
         # beta: D, D
         # out: T, B, D
@@ -227,6 +229,54 @@ class LinearODE(ODE):
     def get_expression(self):
         raise NotImplementedError
 
+
+
+class LinearOSCODE(LinearODE):
+    """
+    Two-dimensional damped linear oscillator
+    """
+
+    def __init__(self, param=None):
+        super().__init__(2, param)
+        self.beta = self.param[0]
+        self.has_coef = True
+        self.name = 'LinearOSC'
+        self.std_base = 0.14796104122796297
+
+    def dx_dt(self, t, x):
+        x = np.array(x)
+        return np.matmul(self.beta,x)
+        
+    def _dx_dt(self, x):
+        x = np.array(x)
+        return np.matmul(self.beta,x)    
+        
+
+    def get_default_param(self):
+        return [np.array([[-.9, 1], [-1, -.9]])]
+
+    def get_expression(self):
+        var_dict = get_var_real()
+        X0 = var_dict['X0']
+        X1 = var_dict['X1']
+
+        C = var_dict['C']
+        if self.has_coef:
+            eq1 = - C * X0  + C * X1 
+            eq2 = - C * X0 - C * X1
+            
+        else:
+            eq1 = -X0 + X1
+            eq2 = - X0 - X1
+            
+        return [eq1, eq2]
+        
+    def functional_theta(self, theta):
+        new_ode = LinearOSCODE(self.dim_x, theta)
+        return new_ode.dx_dt_batch
+        
+        
+        
 
 class SineWave(LinearODE):
     def __init__(self, param=None):
